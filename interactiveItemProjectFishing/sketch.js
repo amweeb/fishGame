@@ -13,7 +13,7 @@ let gameState = "pause";
 let stopTime = 0;
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(700, 700);
   fishingRodX = width / 2;
   fishingLineY = height / 2;
   fish = new Fish();
@@ -29,20 +29,61 @@ function preload() {
 function draw() {
   //create bg
   background(135, 205, 250);
+  fill(255, 223, 0);
+  stroke("white");
+  strokeWeight(30);
+  line(0, height / 2, width, height / 2);
+  noStroke();
+  ellipse(100, 100, 80, 80);
   fill(0, 0, 139);
   rect(0, height / 2, width, height / 2);
 
   //create rod and line
   stroke(0);
   strokeWeight(4);
+  stroke("white");
+  //interactive line 
   line(fishingRodX, 0, fishingRodX, height / 2);
   line(fishingRodX, height / 2, fishingRodX, fishingLineY);
-  stroke(0);
+  stroke("black");
   strokeWeight(4);
-  line(fishingRodX, 0, fishingRodX - 50, height / 2); 
+  stroke(128); // grey color for the top part
+  line(fishingRodX, 0, fishingRodX - 50, height / 2 - 60);
+  stroke(0)
+  strokeWeight(8);
+  line(fishingRodX - 50, height / 2 - 50, fishingRodX - 60, height / 2);
+  strokeWeight(4);
   fill("red");
-  circle(fishingRodX - 50, 160, 20);
-// check if the game is in fishing state
+  arc(fishingRodX, fishingLineY, 20, 20, PI, TWO_PI);
+  fill(150);
+  ellipse(fishingRodX - 50, height / 2 - 60, 30, 30);
+  fill(100);
+  ellipse(fishingRodX - 50, height / 2 - 60, 20, 20);
+  stroke(0);
+  strokeWeight(6);
+  line(fishingRodX - 50, height / 2 - 60, fishingRodX - 50 - 25, height / 2 - 60);
+
+ 
+
+
+  //draw chest
+  strokeWeight(4);
+  fill("red");
+  rect(50, height / 2 - 80, 100, 80);
+  fill("white");
+  rect(50, height / 2 - 100, 100, 20);
+  line(45, height / 2 - 60, 45, height / 2 - 20);
+  line(155, height / 2 - 60, 155, height / 2 - 20);
+  fill(0);
+  rect(95, height / 2 - 100, 10, 10);
+// fish caught display
+  fill(255);
+  textSize(16);
+  textAlign(CENTER, CENTER);
+  text(`Fish Caught: ${fishCaught}`, 100, height / 2 - 40);
+  
+
+  // check if the game is in fishing state
   if (gameState === "fishing") {
     fishingLineY = constrain(mouseY, height / 2, height);
   }
@@ -56,7 +97,7 @@ function draw() {
   ) {
     fill(255);
     textSize(20);
-    text(`Click: ${catchThreshold} times!`, width / 2 - 100, height / 2 - 20);
+    text(`Click: ${catchThreshold} times!`, mouseX, mouseY);
 
     // slows fish when meeting line
     if (stopTime === 0) {
@@ -69,21 +110,22 @@ function draw() {
     }
   }
 
-  //game info
-  fill(255);
-  textSize(20);
-  text(`Fish Caught: ${fishCaught}`, 20, 30);
-
   //instructions @ pause
   if (gameState === "pause") {
-    text("Move cursor to cast!", width / 2 - 100, height / 2 - 20);
+    fill(255);
+    textSize(20);
+    textAlign(CENTER, CENTER);
+    text("Click and move cursor to cast!", width / 2, height / 2 - 20);
     text(
       "Click many times to reel in when a fish bites!",
-      width / 2 - 200,
+      width / 2,
       height / 2 + 20
     );
   } else if (gameState === "caught") {
-    text("Caught!", width / 2 - 80, height / 2 - 20);
+    textSize(20);
+    textAlign(CENTER, CENTER);
+    fill(255);
+    text("Caught!", width / 2, height / 2 - 20);
   }
 }
 
